@@ -1,0 +1,2 @@
+Strat	u25	tx	ActTx	yearly_incr	repl	dAIDS	HIV+	AllTx	NotAllTx	Untreated	NotTargeted	PerDaysTx	susc_d	new_infs	cd4_1days	cd4_2days	cd4_3days	cd4_4days	cd4_5days	tx_days	D00	D01	D02	D03	D05	D07	D08	D10	D15	D20
+1	0	0.800	0.158	0.020	1	0	65	0	465	18	1.000000	49	19068	15	6881	2657	632	273	0	11768	0.703134	0.698943	0.694739	0.690521	0.682046	0.673517	0.669231	0.660617	0.638817	0.616615
