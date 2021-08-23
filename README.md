@@ -1,2 +1,2 @@
 # EvoNetC
-Current development version of EvoNetC package, using mostly the C programming language for drug resistance simulations.
+C language version of Evonet designed to model HIV-1 drug resistance
