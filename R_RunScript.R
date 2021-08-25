@@ -62,11 +62,22 @@ for (ii in 1: length(V0_vec)) {
   
 }
 
+
+date_time <- format(Sys.time(), "%b_%d_%Y_at_%H_%M_%S")
+
+
 ##export AgentHistory.txt file
 agenthistory <- read.delim("AgentHistory.txt")
-write.csv(agenthistory,"agenthistory_8192021_1129_fastdecayhigh_slowdecaylow__adh100_2reps_n500_inf175_1year.csv", row.names=TRUE)
+agent_filename<-"agenthistory"
+file_name <- paste(agent_filename,date_time, "_", sep="")
+write.csv(agenthistory,paste0(file_name, "_fastdecayhigh_slowdecaylow_adh100_2reps_n500_inf_175_1yr_.csv"), row.names=TRUE)
 
 ##export CheckSSCMax.txt file
 checksscmax <- read.delim("CheckSSCMax.txt")
-write.csv(checksscmax,"CheckSSCMax_8192021_1129_fastdecayhigh_slowdecaylow__adh100_2reps_n500_inf175_1year.csv", row.names=TRUE)
+sscmax_filename<-"CheckSSCMax"
+file_name <- paste(sscmax_filename,date_time,"_", sep="")
+write.csv(checksscmax,paste0(file_name, "_fastdecayhigh_slowdecaylow_adh100_2reps_n500_inf_175_1yr_.csv"), row.names=TRUE)
+
 source("Plotting_SSCMax_VerifyOutput.R")
+
+#PatientRegistryOutput <- read.delim("PatientRegistryOutput.txt")

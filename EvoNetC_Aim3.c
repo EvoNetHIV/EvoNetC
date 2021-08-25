@@ -187,9 +187,9 @@ void PrintTrackedAgents()
     for (i=1; i<=N; i++) {
       if (Status[i] == 1) {
         if ((i >= TrackedAgentsGroup1start && i <= TrackedAgentsGroup1end) ||  (i >= TrackedAgentsGroup2start && i <= TrackedAgentsGroup2end)) {
-          fprintf(AgentHistoryFile,"%ld\t%ld\t%ld\t%lf\t%d\t%lf\t%lf\t%ld\t%ld\t%ld\t%3.2lf\t%3.2lf\t%3.2e\t%d\t%2.1lf\t%2.1lf\t%2.1lf\t%2.1lf\t%ld",
+          fprintf(AgentHistoryFile,"%ld\t%ld\t%ld\t%lf\t%d\t%lf\t%lf\t%ld\t%ld\t%ld\t%3.2lf\t%3.2lf\t%3.2e\t%d\t%2.1lf\t%2.1lf\t%2.1lf\t%2.1lf\t%ld\t%ld\t%ld",
                   repl,time,i, SetPoint[i], Status[i], Time_Inf[i], s[i], Treated[i], tx_days[i], tx_days_aids[i], Age[i], ProbDropout[i], V[i],
-                  CD4[i],Drug[i][1],Drug[i][2],Drug[i][3],Drug[i][4], metab_type[i]);
+                  CD4[i],Drug[i][1],Drug[i][2],Drug[i][3],Drug[i][4], metab_type[i], Donors_Index[i]), TransDR[i];
           for (i1=0;i1<=alleles[1];i1++) {
           for (i2=0;i2<=alleles[2];i2++) {
           for (i3=0;i3<=alleles[3];i3++) {
@@ -2884,6 +2884,65 @@ void SimulateTransmission()
                 L_vec[Recipient][i1][i2][i3][i4][i5] = 0.0;
                 V[Recipient] = V[Recipient] + V_vec[Recipient][i1][i2][i3][i4][i5];
               }}}}}
+              
+              
+              if(I_vec[Recipient][0][0][1][1][1]>0.0){ //triple mut combo #1
+                TransDR[Recipient]=1;
+              }
+              
+              if(I_vec[Recipient][0][1][0][1][1]>0.0){ //triple mut combo #2
+                TransDR[Recipient]=1;
+              }
+
+              if(I_vec[Recipient][0][1][1][0][1]>0.0){ //triple mut combo #3
+                TransDR[Recipient]=1;
+              }
+              
+              if(I_vec[Recipient][0][1][1][1][0]>0.0){ //triple mut combo #4
+                TransDR[Recipient]=1;
+              }
+              if(I_vec[Recipient][1][0][1][0][1]>0.0){ //triple mut combo #5
+                TransDR[Recipient]=1;
+              }
+ 
+              if(I_vec[Recipient][1][0][1][1][0]>0.0){ //triple mut combo #6
+                TransDR[Recipient]=1;
+              }
+              if(I_vec[Recipient][1][1][0][0][1]>0.0){ //triple mut combo #7
+                TransDR[Recipient]=1;
+              }
+
+              if(I_vec[Recipient][1][1][1][0][0]>0.0){ //triple mut combo #8
+                TransDR[Recipient]=1;
+              }
+
+               
+              if(I_vec[Recipient][1][0][0][1][1]>0.0){ //triple mut combo #9
+                 TransDR[Recipient]=1;
+               } 
+
+               if(I_vec[Recipient][0][1][1][1][1]>0.0){ // quadruple mut combo #1
+                 TransDR[Recipient]=1;
+               } 
+               if(I_vec[Recipient][1][0][1][1][1]>0.0){ // quadruple mut combo #2
+                 TransDR[Recipient]=1;
+               } 
+               if(I_vec[Recipient][1][1][0][1][1]>0.0){ // quadruple mut combo #3
+                 TransDR[Recipient]=1;
+               } 
+               if(I_vec[Recipient][1][1][1][0][1]>0.0){ // quadruple mut combo #4
+                 TransDR[Recipient]=1;
+               } 
+               if(I_vec[Recipient][1][1][1][1][0]>0.0){ // quadruple mut combo #5
+                 TransDR[Recipient]=1;
+               } 
+               
+               
+               if(I_vec[Recipient][1][1][1][1][1]>0.0){ // quintuple mut combo 
+                 TransDR[Recipient]=1;
+               } 
+
+               
               I[Recipient] = V[Recipient];
               
               //ViralContribToLogSP0[Recipient] = ViralContribToLogSP0[Infector] + norm_rand(0,((time-Time_Inf[Infector])/365)*MutationVariance); 
@@ -3631,7 +3690,7 @@ void PrintHeaders()
 
  if (repl == 1) {
    if ( (TrackedAgentsGroup1end - TrackedAgentsGroup1start > 0) || ( TrackedAgentsGroup2end - TrackedAgentsGroup2start > 0) ) {
-     fprintf(AgentHistoryFile,"repl\ttime\tAgent\tSPVL\tStatus\ttInf\ts\ttx\ttx_d\ttx_dA\tAge\tPdrop\tV\tCD4\tD1\tD2\tD3\tD4\tMet");
+     fprintf(AgentHistoryFile,"repl\ttime\tAgent\tSPVL\tStatus\ttInf\ts\ttx\ttx_d\ttx_dA\tAge\tPdrop\tV\tCD4\tD1\tD2\tD3\tD4\tMet\tDonor_Index\tTransmittedDR");
      for (i1=0;i1<=alleles[1];i1++) {
      for (i2=0;i2<=alleles[2];i2++) {
      for (i3=0;i3<=alleles[3];i3++) {
