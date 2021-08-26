@@ -254,6 +254,7 @@ double reduced_linkage_low_risk = 1.0;
   // Pharmacogenomic Parameters
   
   long TransDR[5001];// transmitted drug resistance status
+  long AcqDR[5001];// acquired drug resistance status
   double fast_metab_prop=0.0; 
   double inter_metab_prop=1.0;
   double slow_metab_prop=0.0;
