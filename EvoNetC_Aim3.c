@@ -187,9 +187,10 @@ void PrintTrackedAgents()
     for (i=1; i<=N; i++) {
       if (Status[i] == 1) {
         if ((i >= TrackedAgentsGroup1start && i <= TrackedAgentsGroup1end) ||  (i >= TrackedAgentsGroup2start && i <= TrackedAgentsGroup2end)) {
-          fprintf(AgentHistoryFile,"%ld\t%ld\t%ld\t%lf\t%d\t%lf\t%lf\t%ld\t%ld\t%ld\t%3.2lf\t%3.2lf\t%3.2e\t%d\t%2.1lf\t%2.1lf\t%2.1lf\t%2.1lf\t%ld\t%ld\t%ld",
+          fprintf(AgentHistoryFile,"%ld\t%ld\t%ld\t%lf\t%d\t%lf\t%lf\t%ld\t%ld\t%ld\t%3.2lf\t%3.2lf\t%3.2e\t%d\t%2.1lf\t%2.1lf\t%2.1lf\t%2.1lf\t%ld\t%ld\t%ld\t%ld\t%ld\t%ld\t%ld\t%ld\t%ld",
                   repl,time,i, SetPoint[i], Status[i], Time_Inf[i], s[i], Treated[i], tx_days[i], tx_days_aids[i], Age[i], ProbDropout[i], V[i],
-                  CD4[i],Drug[i][1],Drug[i][2],Drug[i][3],Drug[i][4], metab_type[i], Donors_Index[i], TransDR[i]);
+                  CD4[i],Drug[i][1],Drug[i][2],Drug[i][3],Drug[i][4], metab_type[i], Donors_Index[i], TransDR[i], AcqDR[i], 
+                  mut_locus1[i], mut_locus2[i], mut_locus3[i], mut_locus4[i], mut_locus5[i]);
           for (i1=0;i1<=alleles[1];i1++) {
           for (i2=0;i2<=alleles[2];i2++) {
           for (i3=0;i3<=alleles[3];i3++) {
@@ -958,6 +959,29 @@ void AddInfecteds()
       UnderCare[i] = 0;
    }
 
+   //assign agents to have viral mutations at the beginning of the simulation
+   if(genrand_real2() < prop_mut_locus1){ //locus position 1 is K65R
+      mut_locus1[i] = 1;
+     I_vec[i][1][0][0][0][0]=100000;
+     
+   }
+   if(genrand_real2() < prop_mut_locus2){ //locus position 2 is M184V
+     mut_locus2[i] = 1;
+     I_vec[i][0][1][0][0][0]=100000;
+   }
+   if(genrand_real2() < prop_mut_locus3){ //locus position 3 is K103N
+     mut_locus3[i] = 1;
+     I_vec[i][0][0][1][0][0]=100000;
+   }
+   if(genrand_real2() < prop_mut_locus4){ //locus position 4 is GenericTDF
+     mut_locus4[i] = 1;
+     I_vec[i][0][0][0][1][0]=100000;
+   }
+   if(genrand_real2() < prop_mut_locus5){ //locus position 5 is GenericEFV
+     mut_locus5[i] = 1;
+     I_vec[i][0][0][0][0][1]=100000;
+   }
+   
    Time_Inf[i] = time;
    CD4time[i]=-Time_Inf[i] ; // What does this mean???
    TimeInAIDS[i]= 0;
@@ -969,7 +993,10 @@ void AddInfecteds()
    I_vec[i][0][0][0][0][0] = I[i];
    M_vec[i][0][0][0][0][0] = 0.0;
    L_vec[i][0][0][0][0][0] = 0.0;
- 
+  
+   if(mut_locus3[i]==1){
+     
+   }
    Donors_V[i] = -1.0; // Flag absence of information with -1's or zeros.
    Donors_ViralContribToLogSP0[i] = -1.0; // Flag absence of information with -1's or zeros
    Donors_EnvirContribToLogSP0[i] = -1.0; // Flag absence of information with -1's or zeros
@@ -2311,7 +2338,24 @@ void UpdateViralLoadsAim3()
   } while (Time < time_final);
 
   // Done getting locus specific information.  Update the old style "plain" V viral load array for agent i. 
-  V[i] = V_total; 
+  V[i] = V_total;
+  
+  
+  // Calculate the sum of the resistant mutants for triple, quadruple and quintuple mutants.
+  long triplus_mut_eq1;
+  long triplus_mut_eq2;
+  long triplus_mut_eq3;
+  long triplus_mut_tot;
+  
+  triplus_mut_eq1 = I_vec[i][0][0][1][1][1] + I_vec[i][0][1][0][1][1] + I_vec[i][0][1][1][0][1] + I_vec[i][0][1][1][1][0]; 
+  triplus_mut_eq2 = triplus_mut_eq1 + I_vec[i][1][0][1][0][1] + I_vec[i][1][0][1][1][0] + I_vec[i][1][1][0][0][1] + I_vec[i][1][1][1][0][0]; 
+  triplus_mut_eq3 = triplus_mut_eq2+ I_vec[i][1][0][0][1][1] + I_vec[i][0][1][1][1][1] + I_vec[i][1][0][1][1][1] +  I_vec[i][1][1][0][1][1]; 
+  triplus_mut_tot = triplus_mut_eq3 + I_vec[i][1][1][1][0][1] + I_vec[i][1][1][1][1][0] + I_vec[i][1][1][1][1][1];
+  
+  //Use the sum of the 3+ mutant populations to assign acquired drug resistance
+  if(TransDR[i]==0 && triplus_mut_tot>0){
+    AcqDR[i]=1;
+  }
  
  }  // i loop 
 } // end of subroutine
@@ -3688,7 +3732,7 @@ void PrintHeaders()
 
  if (repl == 1) {
    if ( (TrackedAgentsGroup1end - TrackedAgentsGroup1start > 0) || ( TrackedAgentsGroup2end - TrackedAgentsGroup2start > 0) ) {
-     fprintf(AgentHistoryFile,"repl\ttime\tAgent\tSPVL\tStatus\ttInf\ts\ttx\ttx_d\ttx_dA\tAge\tPdrop\tV\tCD4\tD1\tD2\tD3\tD4\tMet\tDonor_Index\tTransmittedDR");
+     fprintf(AgentHistoryFile,"repl\ttime\tAgent\tSPVL\tStatus\ttInf\ts\ttx\ttx_d\ttx_dA\tAge\tPdrop\tV\tCD4\tD1\tD2\tD3\tD4\tMet\tDonor_Index\tTransDR_status\tAcqDR_status\tmut_at_loc1\tmut_at_loc2\tmut_at_loc3\tmut_at_loc4\tmut_at_loc5");
      for (i1=0;i1<=alleles[1];i1++) {
      for (i2=0;i2<=alleles[2];i2++) {
      for (i3=0;i3<=alleles[3];i3++) {

@@ -255,27 +255,40 @@ double reduced_linkage_low_risk = 1.0;
   
   long TransDR[5001];// transmitted drug resistance status
   long AcqDR[5001];// acquired drug resistance status
-  double fast_metab_prop=0.0; 
-  double inter_metab_prop=1.0;
-  double slow_metab_prop=0.0;
   
   long metab_type[5001]; //agent attribute, metabolizer type 1=intermediate, 2=slow, 3=fast
   
-  double fast_decay1_change=1.0; // value of decay change for drug1 
-  double inter_decay1_change=1.0; // value of decay change for drug1
-  double slow_decay1_change=1.0; // value of decay change for drug1
+  long mut_locus1[5001]; // Mutation at locus position 1, GenericTDF
+  long mut_locus2[5001]; // Mutation at locus position 2, GenericEFV
+  long mut_locus3[5001]; // Mutation at locus position 3, K103N
+  long mut_locus4[5001]; // Mutation at locus position 4, M184V
+  long mut_locus5[5001]; // Mutation at locus position 5, K65R
   
-  double fast_decay2_change=1.0; // value of decay change for drug2
-  double inter_decay2_change=1.0; // value of decay change for drug2
-  double slow_decay2_change=1.0; // value of decay change for drug2
+  double fast_metab_prop=0.0; //Proportion of fast metabolizers in the population
+  double inter_metab_prop=1.0; //Proportion of intermediate metabolizers in the population
+  double slow_metab_prop=0.0; //Proportion of slow metabolizers in the population
   
-  double fast_decay3_change=1.0; // value of decay change for drug3
-  double inter_decay3_change=1.0; // value of decay change for drug3
-  double slow_decay3_change=1.0; // value of decay change for drug3
+  long prop_mut_locus1; //Proportion of people with a mutant at locus position 1
+  long prop_mut_locus2; //Proportion of people with a mutant at locus position 2
+  long prop_mut_locus3; //Proportion of people with a mutant at locus position 3
+  long prop_mut_locus4; //Proportion of people with a mutant at locus position 4
+  long prop_mut_locus5; //Proportion of people with a mutant at locus position 5
   
-  double fast_decay4_change=1.0; // value of decay change for drug4
-  double inter_decay4_change=1.0; // value of decay change for drug4
-  double slow_decay4_change=1.0; // value of decay change for drug4
+  double fast_decay1_change=1.0; // value of decay change w/ fast metabolizers for drug1 
+  double inter_decay1_change=1.0; // value of decay change w/ inter metabolizers for drug1
+  double slow_decay1_change=1.0; // value of decay change w/ slow metabolizersfor drug1
+  
+  double fast_decay2_change=1.0; // value of decay change w/ fast metabolizers for drug2
+  double inter_decay2_change=1.0; // value of decay change w/ inter metabolizers for drug2
+  double slow_decay2_change=1.0; // value of decay change w/ slow metabolizers for drug2
+  
+  double fast_decay3_change=1.0; // value of decay change w/ fast metabolizers for drug3
+  double inter_decay3_change=1.0; // value of decay change w/ inter metabolizers  for drug3
+  double slow_decay3_change=1.0; // value of decay change w/ slow metabolizers for drug3
+  
+  double fast_decay4_change=1.0; // value of decay change w/ fast metabolizers for drug4
+  double inter_decay4_change=1.0; // value of decay change w/ inter metabolizers  for drug4
+  double slow_decay4_change=1.0; // value of decay change w/ slow metabolizers for drug4
   
   double cost1 = 0.01, cost2 = 0.01, cost3 = 0.02, cost4 = 0.01, cost5 = 0.0;
 

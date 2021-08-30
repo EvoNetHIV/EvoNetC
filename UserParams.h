@@ -1,9 +1,10 @@
 void UserParams(void) {
   tfinal = 465;
-  N0 = 100;
+  N0 = 50;
   Num_Loci = 5;
   replicates = 1;
-  Infected0 = 50;
+  Infected0 = 26;
+  prop_mut_locus3 = 1;
   fast_metab_prop = 0.6;
   inter_metab_prop = 0.1;
   slow_metab_prop = 0.3;

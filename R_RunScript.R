@@ -6,10 +6,11 @@ source("ProcessDefaultParams.R") # Reads in default parameters from a text file 
 # User-specific parameters.  These will over-write any default parameters with the same name.
 user_base_params <- c(
   tfinal = 365+100, ##The duration of the run
-  N0 = 100,
+  N0 = 50,
   Num_Loci = 5,
   replicates = 1,
-  Infected0 = 50,
+  Infected0 = 26,
+  prop_mut_locus3 = 1.0, # proportion of population w/ K103N mutation
   fast_metab_prop = 0.60,
   inter_metab_prop = 0.10,
   slow_metab_prop = 0.30,
