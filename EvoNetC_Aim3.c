@@ -959,29 +959,6 @@ void AddInfecteds()
       UnderCare[i] = 0;
    }
 
-   //assign agents to have viral mutations at the beginning of the simulation
-   if(genrand_real2() < prop_mut_locus1){ //locus position 1 is K65R
-      mut_locus1[i] = 1;
-     I_vec[i][1][0][0][0][0]=100000;
-     
-   }
-   if(genrand_real2() < prop_mut_locus2){ //locus position 2 is M184V
-     mut_locus2[i] = 1;
-     I_vec[i][0][1][0][0][0]=100000;
-   }
-   if(genrand_real2() < prop_mut_locus3){ //locus position 3 is K103N
-     mut_locus3[i] = 1;
-     I_vec[i][0][0][1][0][0]=100000;
-   }
-   if(genrand_real2() < prop_mut_locus4){ //locus position 4 is GenericTDF
-     mut_locus4[i] = 1;
-     I_vec[i][0][0][0][1][0]=100000;
-   }
-   if(genrand_real2() < prop_mut_locus5){ //locus position 5 is GenericEFV
-     mut_locus5[i] = 1;
-     I_vec[i][0][0][0][0][1]=100000;
-   }
-   
    Time_Inf[i] = time;
    CD4time[i]=-Time_Inf[i] ; // What does this mean???
    TimeInAIDS[i]= 0;
@@ -994,9 +971,45 @@ void AddInfecteds()
    M_vec[i][0][0][0][0][0] = 0.0;
    L_vec[i][0][0][0][0][0] = 0.0;
   
-   if(mut_locus3[i]==1){
-     
-   }
+  //assign agents to have viral mutations at the beginning of the simulation
+  if(genrand_real2() < prop_mut_locus1){ //locus position 1 is K65R
+    mut_locus1[i] = 1;
+    V_vec[i][0][0][0][0][0] = 0;
+    V_vec[i][1][0][0][0][0]= V0;
+    I_vec[i][1][0][0][0][0]= V0;
+    I_vec[i][0][0][0][0][0]= 0;
+    
+  }
+  if(genrand_real2() < prop_mut_locus2){ //locus position 2 is M184V
+    mut_locus2[i] = 1;
+    V_vec[i][0][0][0][0][0] = 0;
+    V_vec[i][0][1][0][0][0]= V0;
+    I_vec[i][0][1][0][0][0]=V0;
+    I_vec[i][0][0][0][0][0]= 0;
+  }
+  if(genrand_real2() < prop_mut_locus3){ //locus position 3 is K103N
+    mut_locus3[i] = 1;
+    V_vec[i][0][0][0][0][0] = 0;
+    V_vec[i][0][0][1][0][0]= V0;
+    I_vec[i][0][0][1][0][0]=V0;
+    I_vec[i][0][0][0][0][0]= 0;
+  }
+  if(genrand_real2() < prop_mut_locus4){ //locus position 4 is GenericTDF
+    mut_locus4[i] = 1;
+    V_vec[i][0][0][0][0][0] = 0;
+    V_vec[i][1][0][0][1][0]= V0;
+    I_vec[i][0][0][0][1][0]=V0;
+    I_vec[i][0][0][0][0][0]= 0;
+  }
+  if(genrand_real2() < prop_mut_locus5){ //locus position 5 is GenericEFV
+    mut_locus5[i] = 1;
+    V_vec[i][0][0][0][0][0] = 0;
+    V_vec[i][0][0][0][0][1]= V0;
+    I_vec[i][0][0][0][0][1]=V0;
+    I_vec[i][0][0][0][0][0]= 0;
+  }
+  
+  
    Donors_V[i] = -1.0; // Flag absence of information with -1's or zeros.
    Donors_ViralContribToLogSP0[i] = -1.0; // Flag absence of information with -1's or zeros
    Donors_EnvirContribToLogSP0[i] = -1.0; // Flag absence of information with -1's or zeros
